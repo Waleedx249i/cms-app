@@ -74,7 +74,20 @@
                 </div>
             </div>
         </nav>
-
+        <div class="continer">
+            <div class="row">
+              <div class="col-md-2">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a href="/posts">posts</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="/setings">setings</a>
+                    </li>
+                </ul>
+              </div>
+            </div>
+        </div>
         <main class="py-4">
             @yield('content')
         </main>
