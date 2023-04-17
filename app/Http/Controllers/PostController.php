@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\post;
 use Illuminate\Http\Request;
+use App\http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -14,7 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = post::all();
+        return view('posts.index')->with('posts', $posts);
     }
 
     /**
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -33,9 +35,15 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        $post = new post;
+        $post->name = $request->name;
+        $post->content = $request->content;
+        $post->discription = $request->discription;
+        $post->image = $request->image;
+        $post->save();
+        return redirect(route('post.index'));
     }
 
     /**
@@ -46,7 +54,7 @@ class PostController extends Controller
      */
     public function show(post $post)
     {
-        //
+        return view('posts.show')->with('post', $post);
     }
 
     /**
@@ -57,7 +65,7 @@ class PostController extends Controller
      */
     public function edit(post $post)
     {
-        //
+        return view('posts.create')->with($post, 'post');
     }
 
     /**
@@ -67,9 +75,9 @@ class PostController extends Controller
      * @param  \App\Models\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, post $post)
+    public function update(PostRequest $request, post $post)
     {
-        //
+        post::find($post->id)->update($request);
     }
 
     /**
@@ -80,6 +88,7 @@ class PostController extends Controller
      */
     public function destroy(post $post)
     {
-        //
+        post::find($post->id)->delete();
+        return redirect()->route('post.index')->with('success', 'post Data is successfully deleted');
     }
 }
