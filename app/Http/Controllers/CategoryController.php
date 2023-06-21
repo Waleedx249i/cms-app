@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller
 {
@@ -37,8 +38,11 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $category = category::new($request);
+        $category = new category;
+        $category->name = $request->name;
         $category->save();
+        session()->flash('sucsses', 'category add sucssesfly');
+        return redirect(route('category.index'));
     }
 
     /**
@@ -72,7 +76,10 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, category $category)
     {
-        category::find($category->id)->update($request);
+        $cat = category::find($category->id);
+        $cat->name = $request->name;
+        $cat->save();
+        return redirect(route('category.index'));
     }
 
     /**
@@ -84,5 +91,6 @@ class CategoryController extends Controller
     public function destroy(category $category)
     {
         category::find($category->id)->delete();
+        return redirect(route('category.index'));
     }
 }

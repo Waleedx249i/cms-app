@@ -10,22 +10,21 @@
             @endif
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">category</div>
+                    <div class="card-header">tag</div>
 
                     <div class="card-body">
                         <form
-                            @if (isset($category)) action="{{ route('category.update', $category) }}" method="POST"
+                            @if (isset($tag)) action="{{ route('tag.update', $tag) }}" method="POST"
                                 @else
-                                action="{{ route('category.store') }}" method="POST" @endif>
-                            @if (isset($category))
+                                action="{{ route('tag.store') }}" method="POST" @endif>
+                            @if (isset($tag))
                                 @method('PATCH')
                             @endif
                             @csrf
                             <div class="mb-2">
-                                <label class="form-label">category name</label>
+                                <label class="form-label">tag name</label>
                                 <input type="text" name="name" class="form-control"
-                                    placeholder="Example input placeholder"
-                                    value={{ isset($category) ? $category->name : '' }}>
+                                    placeholder="Example input placeholder" value={{ isset($tag) ? $tag->name : '' }}>
                             </div>
 
                             <div class="mb-5" style="text-align: center">

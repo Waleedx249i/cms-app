@@ -19,8 +19,8 @@
                 @endif
                 <div class="card">
                     <div class="card-header" style="display: flex;align-content:center;justify-content: space-between">
-                        <h1>Categorys</h1> <span> <a href="{{ route('category.create') }}" class="btn btn-primary">new
-                                Category</a></span>
+                        <h1>tags</h1> <span> <a href="{{ route('tag.create') }}" class="btn btn-primary">new
+                                tag</a></span>
                     </div>
 
                     <div class="card-body">
@@ -28,14 +28,14 @@
                         <div class="list-group">
 
 
-                            @foreach ($categories as $category)
+                            @foreach ($tags as $tag)
                                 <div class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h5 style="width: 50%" class="mb-1">{{ $category->name }}</h5>
-                                        <small><a class="btn btn-primary "href="{{ route('category.edit', $category) }}"
+                                        <h5 style="width: 50%" class="mb-1">{{ $tag->name }}</h5>
+                                        <small><a class="btn btn-primary "href="{{ route('tag.edit', $tag) }}"
                                                 role="button">EDIT</a></small>
                                         <small>
-                                            <form method="POST" action="{{ route('category.destroy', $category) }}">
+                                            <form method="POST" action="{{ route('tag.destroy', $tag) }}">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button class="btn btn-danger" type="submit">delete</button>

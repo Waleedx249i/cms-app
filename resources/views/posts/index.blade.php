@@ -2,43 +2,75 @@
 
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h1>posts</h1> <span> <a href="{{ route('post.create') }}" class="badge badge-primary">new
-                                post</a></span>
+            <div class="col-md-9">
+                <div class="card" style="">
+                    <div class="card-header" style="display: flex;align-content:center;justify-content: space-between">
+                        <h1>posts</h1>
+                        <p><a href="{{ route('post.create') }}" class="btn btn-primary">new
+                                post</a></p>
                     </div>
 
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+
                         <div class="list-group">
 
 
                             @foreach ($posts as $post)
-                                <a href="{{ route('post.show', $post->id) }}"
-                                    class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{ $post->name }}</h5>
-                                        <small><a class="btn btn-primary "href="{{ route('post.edit', $post->id) }}"
-                                                role="button">EDIT</a></small>
-                                        <small>
-                                            <form method="POST" action="{{ route('post.destroy', $post) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-sucsess" type="submit">delete</button>
-                                            </form>
-                                        </small>
-
+                                <div class="card" style="">
+                                    <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top"
+                                        style=alt="{{ $post->discription }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $post->name }}</h5>
+                                        <p class="card-text">{{ $post->discription }}</p>
                                     </div>
-                                    <p class="mb-1">Paragraph</p>
-                                    <small>paragraph footer</small>
-                                </a>
+                                    <div class="card-body" style="display:flex" style="justify-content: space-around">
+                                        <span class="card-link" style="display: inline"><a
+                                                style="text-decoration: none;color:white"
+                                                class="btn btn-success "href="{{ route('post.show', $post) }}"
+                                                role="button">show</a></span>
+                                        @if ($post->trashed())
+                                            <span class="card-link" style="display: inline">
+                                                <form method="POST" action="{{ route('post.destroy', $post->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" type="submit">delete</button>
+                                                </form>
+                                            </span>
+                                            <span class="card-link" style="display: inline"><a
+                                                    style="text-decoration: none;color:white"
+                                                    class="btn btn-info "href="{{ route('trashed.restore', $post->id) }}"
+                                                    role="button">restore</a></span>
+                                        @else
+                                            <span class="card-link" style="display: inline"><a
+                                                    style="text-decoration: none;color:white"
+                                                    class="btn btn-info "href="{{ route('post.edit', $post) }}"
+                                                    role="button">edit</a></span>
+
+
+                                            <span class="card-link" style="display: inline">
+                                                <form method="POST" action="{{ route('post.destroy', $post) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" type="submit">trashed</button>
+                                                </form>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
                             @endforeach
+
 
                         </div>
                     </div>

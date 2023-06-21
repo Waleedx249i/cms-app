@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\Controller;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +21,15 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('/post', PostController::class);
-Route::resource('/category', CategoryController::class);
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::resource('/post', PostController::class);
+    Route::resource('/category', CategoryController::class);
+    Route::resource('/tag', TagController::class);
+    Route::get('/trashed', [App\Http\Controllers\PostController::class, 'trashed'])->name('trashed');
+
+    Route::get('/trashed/{id}', [App\Http\Controllers\PostController::class, 'restore'])->name('trashed.restore');
+});

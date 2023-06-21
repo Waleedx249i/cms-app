@@ -3,8 +3,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Testing\Constraints\SoftDeletedInDatabase;
 
-class CreateCategoriesTable extends Migration
+class AddSoftdeleteColumnToPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +14,8 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('category', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('posts', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +26,8 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('deleted_at');
+        });
     }
 }
