@@ -85,15 +85,23 @@
 
                 <div class="col-md-2">
 
-                    <div class="list-group">
-                        <a href="{{ route('post.index') }}" class="list-group-item list-group-item-action ">posts</a>
-                        <a href="{{ route('category.index') }}"
-                            class="list-group-item list-group-item-action">categories</a>
-                        <a href="{{ route('tag.index') }}" class="list-group-item list-group-item-action ">tags</a>
-                        <a href="{{ route('trashed') }}" class="list-group-item list-group-item-action ">trashed</a>
+                    @if (Auth::user())
+                        <div class="list-group">
+                            <a href="{{ route('post.index') }}"
+                                class="list-group-item list-group-item-action ">posts</a>
+                            <a href="{{ route('category.index') }}"
+                                class="list-group-item list-group-item-action">categories</a>
+                            @if (Auth::user()->isAdmin())
+                                <a href="{{ route('user.index') }}"
+                                    class="list-group-item list-group-item-action ">users</a>
+                            @endif
+                            <a href="{{ route('tag.index') }}" class="list-group-item list-group-item-action ">tags</a>
+                            <a href="{{ route('trashed') }}"
+                                class="list-group-item list-group-item-action ">trashed</a>
 
 
-                    </div>
+                        </div>
+                    @endif
 
                 </div>
                 <div class="col-md-8">

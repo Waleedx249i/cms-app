@@ -19,6 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'about',
+        'role',
         'email',
         'password',
     ];
@@ -32,6 +34,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    protected function profile()
+    {
+        return $this->hasOne(profile::class);
+    }
 
     /**
      * The attributes that should be cast.
@@ -41,4 +47,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function isAdmin()
+    {
+        return $this->role == 'admin';
+    }
 }

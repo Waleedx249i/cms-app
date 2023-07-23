@@ -41,7 +41,7 @@ class tagController extends Controller
         $tag->name = $request->name;
         $tag->save();
         session()->flash('sucsses', 'tag add sucssesfly');
-        return redirect(route('tags.index'));
+        return redirect(route('tag.index'));
     }
 
     /**
@@ -90,6 +90,6 @@ class tagController extends Controller
     public function destroy(tag $tag)
     {
         tag::find($tag->id)->delete();
-        return redirect(route('tags.index'));
+        return redirect(route('tag.index'));
     }
 }
