@@ -25,13 +25,16 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
-
+Route::middleware(['auth','admin'])->group(function () {
+    Route::resource('/user', UserController::class);
+});
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('/post', PostController::class);
     Route::resource('/category', CategoryController::class);
     Route::resource('/tag', TagController::class);
-    Route::resource('/user', UserController::class)->middleware('admin');
+    Route::get('/user/{id}/profile', [App\Http\Controllers\UserController::class, 'profile'])->name('profile');
+    
     Route::get('/trashed', [App\Http\Controllers\PostController::class, 'trashed'])->name('trashed');
     Route::get('/trashed/{id}', [App\Http\Controllers\PostController::class, 'restore'])->name('trashed.restore');
-    Route::get('/user/{id}/profile', [App\Http\Controllers\UserController::class, 'profile'])->name('profile');
+
 });

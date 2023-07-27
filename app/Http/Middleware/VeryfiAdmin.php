@@ -6,7 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-class VeryfiAdmin
+
+class VeryfiAdmin 
 {
     /**
      * Handle an incoming request.
@@ -17,10 +18,16 @@ class VeryfiAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (1 == 1) {
+       
+        if (!auth()->User()->isAdmin()) {
+            
             return redirect()->route('home');
+             
         } else {
             return $next($request);
         }
+        
+        
+        
     }
 }
