@@ -31,10 +31,6 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::resource('/user', UserController::class);
 });
 Route::group(['middleware' => 'auth'], function () {
-  
-
-//
-
     Route::resource('/post', PostController::class);
     Route::resource('/category', CategoryController::class);
     Route::resource('/tag', TagController::class);
