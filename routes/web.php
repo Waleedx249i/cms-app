@@ -7,6 +7,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use GuzzleHttp\Middleware;
+use App\Http\Controllers\ProfileController as ProfileSettingsController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,10 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::resource('/user', UserController::class);
 });
 Route::group(['middleware' => 'auth'], function () {
+  
+
+//
+
     Route::resource('/post', PostController::class);
     Route::resource('/category', CategoryController::class);
     Route::resource('/tag', TagController::class);
