@@ -2,22 +2,29 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
+        <div class="table-responsive-md">
+            <table class="table table-primary">
+                <thead>
+                    <tr>
+                        <th scope="col">user</th>
+                        <th scope="col">posts</th>
 
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr class="">
+                            <td scope="row">{{ $user->name }}</td>
+                            <td>{{ $user->post->count() }}</td>
 
-                        {{ __('You are logged in!') }}
-                    </div>
-                </div>
-            </div>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
         </div>
+
+
+
     </div>
 @endsection

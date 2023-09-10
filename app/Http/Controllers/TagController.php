@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
-class tagController extends Controller
+
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -78,7 +78,8 @@ class tagController extends Controller
         $tag = tag::find($tag->id);
         $tag->name = $request->name;
         $tag->save();
-        return redirect(route('tags.index'));
+        session()->flash('sucsses', 'tag updated sucssesfly');
+        return redirect(route('tag.index'));
     }
 
     /**

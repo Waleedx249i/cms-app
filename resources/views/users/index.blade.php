@@ -16,46 +16,50 @@
                         {{ session('success') }}
                     </div>
                 @endif
-                <div class="card">
-                    <div class="card-header" style="display: flex;align-content:center;justify-content: space-between">
-                        <h1>users</h1>
-                    </div>
+                <h1>users</h1>
+                <div class="table-responsive">
+                    <table class="table table-primary">
+                        {{-- <thead>
+                            <tr>
+                                <th scope="col">image </th>
+                                <th scope="col">name</th>
+                                <th scope="col">role</th>
+                            </tr>
+                        </thead> --}}
+                        @foreach ($users as $user)
+                            <tbody>
+                                <tr style="height: 50px">
+                                    <td><img style="border-radius: 50%;width: 50px;haight:50px"
+                                            src="{{ asset('storage/' . $user->profile->image) }}" alt=""></td>
+                                    <td>
+                                        <p style="margin-top: 9px">{{ $user->name }}</p>
+                                    </td>
+                                    <td>
+                                        <div style="height: 50px">
+                                            @if ($user->role == 'writer')
+                                                <form method="POST" action="{{ route('makeAdmin', $user->id) }}">
+                                                    @csrf
+                                                    <button style="height: 8px" class="btn btn-primre" type="submit">make
+                                                        admin</button>
+                                                </form>
+                                            @else
+                                                <form method="POST" action="{{ route('removeAdmin', $user->id) }}">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <button style="height:30px;margin-top:9px" class="btn btn-danger"
+                                                        type="submit">remove
+                                                        admin</button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
 
-                    <div class="card-body">
-
-                        <div class="list-group">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>image</th>
-                                        <th>name</th>
-                                        <th>permesion</th>
-                                    </tr>
-                                </thead>
-                                @foreach ($users as $user)
-                                    <tbody>
-                                        <tr>
-                                            <td><img src="" alt="" style="border-radius: 50%"></td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>
-                                                @if ($user->role == 'writer')
-                                                    <small><a class="btn btn-primary "href="{{ route('user.show', $user) }}"
-                                                            role="button">maker
-                                                            admin</a></small>
-                                                @else
-                                                    <small><a class="btn btn-danger "href="{{ route('user.edit', $user) }}"
-                                                            role="button">remove
-                                                            admin</a></small>
-                                                @endif
-                                            </td>
-                                        </tr>
-
-                                    </tbody>
-                                @endforeach
-                            </table>
-                        </div>
-                    </div>
+                            </tbody>
+                        @endforeach
+                    </table>
                 </div>
+
             </div>
         </div>
     </div>

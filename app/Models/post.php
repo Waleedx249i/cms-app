@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use app\Models\category;
 use App\Models\Tag;
+use App\Models\user;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class post extends Model
@@ -17,13 +18,18 @@ class post extends Model
         'discription',
         'content',
         'image',
-        'category_id'
+        'category_id',
+        'user_id'
     ];
     protected $table = 'posts';
 
-    protected  function category()
+    public  function category()
     {
         return  $this->belongsTo(category::class);
+    }
+    public  function user()
+    {
+        return  $this->belongsTo(user::class);
     }
 
     public function tags()

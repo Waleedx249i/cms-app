@@ -6,9 +6,9 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
-use GuzzleHttp\Middleware;
-use App\Http\Controllers\ProfileController as ProfileSettingsController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,18 +25,33 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 Auth::routes();
 Route::middleware(['auth','admin'])->group(function () {
-    Route::resource('/user', UserController::class);
-});
-Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashbord', [App\Http\Controllers\HomeController::class, 'index'])->name('dashbord');
     Route::resource('/post', PostController::class);
     Route::resource('/category', CategoryController::class);
     Route::resource('/tag', TagController::class);
-    Route::get('/user/{id}/profile', [App\Http\Controllers\UserController::class, 'profile'])->name('profile');
-    
+    Route::resource('/user', UserController::class);
     Route::get('/trashed', [App\Http\Controllers\PostController::class, 'trashed'])->name('trashed');
     Route::get('/trashed/{id}', [App\Http\Controllers\PostController::class, 'restore'])->name('trashed.restore');
+   
+    Route::resource('/user', UserController::class);
+    Route::post('users/{id}/makeAdmin', [UserController::class,'makeAdmin'])->name('makeAdmin');
+    Route::post('users/{id}/removeAdmin', [UserController::class,'removeAdmin'])->name('removeAdmin');
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home',[App\Http\Controllers\FrontendControler::class,'index'])->name('home');
+    Route::get('/showcategory/{category}',[App\Http\Controllers\FrontendControler::class,'showcategory'])->name('showcategory');
+    Route::get('/viwopost/{post}',[App\Http\Controllers\FrontendControler::class,'post'])->name('viwopost');
+    Route::get('/search',[App\Http\Controllers\FrontendControler::class,'search'])->name('search');
+   
+});
 
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile/{profile}/edit',[App\Http\Controllers\ProfileController::class,'edit'])->name('profile.edit');
+    Route::put('/profile/{profile}', [App\Http\Controllers\ProfileController::class,'update'])->name('profile.update');
+    Route::get('/profile/{profile}', [App\Http\Controllers\ProfileController::class,'show'])->name('profile.show');
 });

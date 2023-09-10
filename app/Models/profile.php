@@ -10,7 +10,11 @@ class profile extends Model
     use HasFactory;
     protected $fillable = [
         'image',
-        'user_id'
+        'user_id',
+        'facebook',
+        'twitter',
+        'insta',
+        'about'
     ];
     protected $table = 'profiles';
 

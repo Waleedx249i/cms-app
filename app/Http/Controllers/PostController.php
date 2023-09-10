@@ -9,6 +9,7 @@ use App\http\Requests\PostRequest;
 use App\http\Requests\UpdateRequest;
 use App\models\category;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -53,6 +54,7 @@ class PostController extends Controller
             'discription' => $request->discription,
             'image' => $request->image->store('images', 'public'),
             'category_id' => $request->category_id,
+            'user_id'=>Auth::user()->id
         ]);
 
         $post->tags()->attach($request->tags);
@@ -80,7 +82,14 @@ class PostController extends Controller
      */
     public function edit(post $post)
     {
-        return view('posts.create')->with('post', $post)->with('categories', category::all());;
+        if (Auth::user()->can('edit',$post)) {
+            
+            return view('posts.create')->with('post', $post)->with('categories', category::all())->with('tags',tag::all());
+           } else {
+            
+            return redirect(route('post.show',$post));
+           }
+       
     }
 
     /**
@@ -92,6 +101,8 @@ class PostController extends Controller
      */
     public function update(UpdateRequest $request, post $post)
     {
+        if (Auth::user()->can('edit',$post)) {
+        
         $data = $request->only(['name', 'content', 'discription', 'category_id']);
         if ($request->hasFile('image')) {
 
@@ -100,8 +111,12 @@ class PostController extends Controller
         };
 
         $post->update($data);
+        $post->tags()->attach($request->tags);
         session()->flash('success', 'post updated sucsesfly');
         return redirect(route('post.index'));
+    }else{
+        return redirect(route('post.show',$post));
+    }
     }
 
     /**
